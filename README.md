@@ -1,7 +1,7 @@
-# ODE_Python
-Numerical solver for ODE's for simulated flying insect
+# Repository Title: ODE_Python
+_About_: Numerical solver for ODE's for simulated flying insect
 
-
+___
 # Git instructions: 
 ## Get this repository onto your local computer: 
 - a. Open terminal and navigate to a directory where you want this folder (ex. .../Documents/GitRepos)
