@@ -1,5 +1,11 @@
 # Repository Title: ODE_Python
 _About_: Numerical solver for ODE's for simulated flying insect
+___
+
+# TODO: 
+1. Make sure everyone can collaborate
+2. Compare this solver with MATLAB
+3. Run simulations to generate more training data for Neural Networks
 
 ___
 # Git instructions: 
