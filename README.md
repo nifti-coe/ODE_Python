@@ -27,4 +27,3 @@ ___
 - d. "push" your changes to the web.
 
     ``` git push ```
-
