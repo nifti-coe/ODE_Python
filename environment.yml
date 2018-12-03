@@ -1,0 +1,13 @@
+name: numSolve
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.6
+  - matplotlib=2.1
+  - numpy=1.14
+  - pandas=0.22
+  - pip=9.0 # not necessary, unless you want to install pip packages, like Keras
+  - scipy=1.0
+  - ipykernel=4.8 # after install, activate environment and type python -m ipykernel install --user --name numsolve
+
