@@ -3,9 +3,8 @@ _About_: Numerical solver for ODE's for simulated flying insect
 ___
 
 # TODO: 
-1. Make sure everyone can collaborate
-2. Compare this solver with MATLAB
-3. Run simulations to generate more training data for Neural Networks
+1. Run simulations to generate more training data for Neural Networks
+2. Use newly generated training data to train NNet
 
 ___
 # Git instructions: 
