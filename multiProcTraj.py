@@ -1,5 +1,22 @@
 from scipy.integrate import odeint
 import numpy as np
+import pandas as pd
+import os
+
+
+# define directories
+baseDir = os.getcwd()
+dataDir = r'D:\MothSimulations\11c-AggressiveManeuver\Qstore\hws_am_con'
+figDir = r'D:\Dropbox\AcademiaDropbox\mothMachineLearning_dataAndFigs\Figs'
+dataOutput = r'D:\Dropbox\AcademiaDropbox\mothMachineLearning_dataAndFigs\DataOutput'
+savedModels = r'D:\Dropbox\AcademiaDropbox\mothMachineLearning_dataAndFigs\savedModels'
+randomRawData = r'D:/Dropbox/AcademiaDropbox/mothMachineLearning_dataAndFigs/PythonGeneratedData'
+
+if not os.path.exists(dataOutput):
+    os.mkdir(dataOutput)
+if not os.path.exists(savedModels):
+    os.mkdir(savedModels)
+
 
 # Global variables
 
@@ -168,4 +185,21 @@ def flyBug_firstLast(i):
     [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
     [phi0, phif], [phid0, phidf] = state[[0, -1], 6], state[[0, -1],7]
     [F, alpha, tau0] = state0[i, [8, 9, 10]]
+    return(np.array([x0, xf, xd0, xdf, y0, yf, yd0, ydf, theta0, thetaf, thetad0, thetadf, phi0, phif, phid0, phidf, F, alpha, tau0]))
+
+
+testDF = pd.read_csv(os.path.join(dataOutput, "NNpreds_RandomICs.csv"))
+state00 = np.array(testDF[["x_0", "x_dot_0", "y_0", "y_dot_0", 
+           "theta_0", "theta_dot_0", "phi_0", "phi_dot_0", 
+           "F_pred", "alpha_pred", "tau_pred"]])
+
+
+# this returns the initial and final states
+def flyBug_firstLast_test(i):
+    state = odeint(FlyTheBug, state00[i, :], t)
+    [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
+    [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
+    [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
+    [phi0, phif], [phid0, phidf] = state[[0, -1], 6], state[[0, -1],7]
+    [F, alpha, tau0] = state00[i, [8, 9, 10]]
     return(np.array([x0, xf, xd0, xdf, y0, yf, yd0, ydf, theta0, thetaf, thetad0, thetadf, phi0, phif, phid0, phidf, F, alpha, tau0]))
