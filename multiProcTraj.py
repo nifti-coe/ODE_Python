@@ -189,6 +189,8 @@ def flyBug_firstLast(i):
 
 
 testDF = pd.read_csv(os.path.join(dataOutput, "NNpreds_RandomICs.csv"))
+testDF["x_0"] = 0 
+testDF["y_0"] = 0
 state00 = np.array(testDF[["x_0", "x_dot_0", "y_0", "y_dot_0", 
            "theta_0", "theta_dot_0", "phi_0", "phi_dot_0", 
            "F_pred", "alpha_pred", "tau_pred"]])
