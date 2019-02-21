@@ -59,9 +59,9 @@ m2 = rho*(4/3)*np.pi*(bbutt**2)*abutt
 
 echead = ahead/bhead; #Eccentricity of head-thorax (unitless)
 ecbutt = abutt/bbutt; #Eccentricity of gaster (unitless)
-I1 = (1/5)*m1*(ahead**2)*(1 + echead**2); #Moment of inertia of the 
+I1 = (1/5)*m1*(bhead**2)*(1 + echead**2); #Moment of inertia of the 
     #head-thorax
-I2 = (1/5)*m2*(abutt**2)*(1 + ecbutt**2); #Moment of inertia of the gaster
+I2 = (1/5)*m2*(bbutt**2)*(1 + ecbutt**2); #Moment of inertia of the gaster
 
 #This is the surface area of the object experiencing drag.
 S_head = np.pi*bhead**2
@@ -127,9 +127,9 @@ def FlyTheBug(state,t):
     h7 = g*(m1+m2)+(1/2)*Cd_butt*rhoA*S_butt*np.abs(yd)*yd+(1/2)* \
             Cd_head*rhoA*S_head*np.abs(yd)*yd+(-1)*L1*m1*thetad**2* \
             np.sin(theta)+(-1)*F*np.sin(alpha+theta)+(-1)*L2*m2*phid**2*np.sin(phi)
-    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)* \
-            theta+phi)+(-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha)
-    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)+c*((-1)*thetad+phid)
+    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*pi+(-1)*theta+phi)**3 + \
+            (-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha)
+    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*pi+(-1)*theta+phi)**3+c*((-1)*thetad+phid)
     h10 = I1+L1**2*m1
     h11 = I2+L2**2*m2
 
