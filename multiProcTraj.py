@@ -127,9 +127,9 @@ def FlyTheBug(state,t):
     h7 = g*(m1+m2)+(1/2)*Cd_butt*rhoA*S_butt*np.abs(yd)*yd+(1/2)* \
             Cd_head*rhoA*S_head*np.abs(yd)*yd+(-1)*L1*m1*thetad**2* \
             np.sin(theta)+(-1)*F*np.sin(alpha+theta)+(-1)*L2*m2*phid**2*np.sin(phi)
-    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*pi+(-1)*theta+phi)**3 + \
+    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**3 + \
             (-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha)
-    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*pi+(-1)*theta+phi)**3+c*((-1)*thetad+phid)
+    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**3+c*((-1)*thetad+phid)
     h10 = I1+L1**2*m1
     h11 = I2+L2**2*m2
 
