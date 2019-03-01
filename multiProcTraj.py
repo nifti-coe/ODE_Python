@@ -76,7 +76,10 @@ K = 29.3
 # c is the torsional damping constant of the thorax-petiole joint
 # in (cm^2)*g/s
 c =  14075.8   
-g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
+
+# refref: change. Gravity set to 0 for testing
+# g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
+g =  0.0   #g is the acceleration due to gravity in cm/(s^2)
 
 # This is the resting configuration of our 
 # torsional spring(s) = Initial abdomen angle - initial head angle - pi
