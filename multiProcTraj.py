@@ -27,7 +27,7 @@ if not os.path.exists(savedModels):
 bhead = 0.507
 ahead = 0.908
 bbutt  = 0.1295
-abutt  = 1.174
+abutt  = 1.7475
 
 # cgs  density of insect 
 rho = 1 
@@ -44,7 +44,7 @@ L1 = 0.908
 
 # Length from the thorax-abdomen joint to the center of the 
 # abdomen mass in cm
-L2 = 1.747  
+L2 = 1.7475  
 
 # Length from the thorax-abdomen joint to the aerodynamic force 
 # vector in cm
@@ -78,17 +78,17 @@ K = 29.3
 c =  14075.8   
 
 # refref: change. Gravity set to 0 for testing
-# g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
+#g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
 g =  0.0   #g is the acceleration due to gravity in cm/(s^2)
 
 # This is the resting configuration of our 
 # torsional spring(s) = Initial abdomen angle - initial head angle - pi
 betaR =  0.0 
     
-
-t = np.linspace(0, 0.02, num = 100, endpoint = False) # time cut into 100 timesteps
+nstep = 1000 # number of steps in each trajectory
+t = np.linspace(0, 0.02, num = nstep, endpoint = False) # time cut into 100 timesteps
 nrun = 100000  # (max) number of trajectories.
-nstep = 100 # number of steps in each trajectory
+
 
 # initialize the matrix of locations
 zeroMatrix = np.zeros([nstep, nrun])
@@ -104,6 +104,8 @@ ranges = np.array([[0, 0], [-1500, 1500], [0, 0], [-1500, 1500],
 
 # generate random initial conditions for state 0
 state0 = np.random.uniform(ranges[:, 0], ranges[:, 1], size=(nrun, ranges.shape[0]))
+
+springExponent = 1
 
 def FlyTheBug(state,t):
     # unpack the state vector
@@ -130,9 +132,9 @@ def FlyTheBug(state,t):
     h7 = g*(m1+m2)+(1/2)*Cd_butt*rhoA*S_butt*np.abs(yd)*yd+(1/2)* \
             Cd_head*rhoA*S_head*np.abs(yd)*yd+(-1)*L1*m1*thetad**2* \
             np.sin(theta)+(-1)*F*np.sin(alpha+theta)+(-1)*L2*m2*phid**2*np.sin(phi)
-    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**3 + \
+    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**springExponent + \
             (-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha)
-    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**3+c*((-1)*thetad+phid)
+    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**springExponent+c*((-1)*thetad+phid)
     h10 = I1+L1**2*m1
     h11 = I2+L2**2*m2
 
