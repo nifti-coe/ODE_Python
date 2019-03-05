@@ -78,15 +78,15 @@ K = 29.3
 c =  14075.8   
 
 # refref: change. Gravity set to 0 for testing
-#g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
-g =  0.0   #g is the acceleration due to gravity in cm/(s^2)
+g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
+#g =  0.0   #g is the acceleration due to gravity in cm/(s^2)
 
 # This is the resting configuration of our 
 # torsional spring(s) = Initial abdomen angle - initial head angle - pi
 betaR =  0.0 
     
-nstep = 1000 # number of steps in each trajectory
-t = np.linspace(0, 0.02, num = nstep, endpoint = False) # time cut into 100 timesteps
+nstep = 10 # number of steps in each trajectory
+t = np.linspace(0, 0.02, num = nstep, endpoint = True) # time cut into 100 timesteps
 nrun = 100000  # (max) number of trajectories.
 
 
@@ -105,7 +105,7 @@ ranges = np.array([[0, 0], [-1500, 1500], [0, 0], [-1500, 1500],
 # generate random initial conditions for state 0
 state0 = np.random.uniform(ranges[:, 0], ranges[:, 1], size=(nrun, ranges.shape[0]))
 
-springExponent = 1
+springExponent = 1.0
 
 def FlyTheBug(state,t):
     # unpack the state vector
@@ -118,8 +118,9 @@ def FlyTheBug(state,t):
     Re_butt = rhoA*(np.sqrt((xd**2)+(yd**2)))*(2*bbutt)/muA; #dimensionless number
 
     #Coefficient of drag
-    Cd_head = 24/np.abs(Re_head) + 6/(1 + np.sqrt(np.abs(Re_head))) + 0.4
-    Cd_butt = 24/np.abs(Re_butt) + 6/(1 + np.sqrt(np.abs(Re_butt))) + 0.4
+    # refref change away from 0
+    Cd_head = (24/np.abs(Re_head) + 6/(1 + np.sqrt(np.abs(Re_head))) + 0.4)*0
+    Cd_butt = (24/np.abs(Re_butt) + 6/(1 + np.sqrt(np.abs(Re_butt))) + 0.4)*0
     
     h1 = m1 + m2
     h2 = (-1)*L1*m1*np.sin(theta)
@@ -134,7 +135,9 @@ def FlyTheBug(state,t):
             np.sin(theta)+(-1)*F*np.sin(alpha+theta)+(-1)*L2*m2*phid**2*np.sin(phi)
     h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**springExponent + \
             (-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha)
-    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**springExponent+c*((-1)*thetad+phid)
+    h9 = tau0+g*L2*m2*np.cos(phi) + \
+            K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)**springExponent+ \
+            c*((-1)*thetad+phid)
     h10 = I1+L1**2*m1
     h11 = I2+L2**2*m2
 
@@ -160,7 +163,7 @@ def FlyTheBug(state,t):
         h2*h6+h3*h4*h5*h6+(-1)*h2*h5**2*h6+h11*h1*
         h4*h7+(-1)*h3**2*h4*h7+h2*h3*h5*h7+(-1)*h11*
         h1**2*h8+h1*h3**2*h8+h1*h5**2*h8+(-1)*h1*h2*
-        h3*h9+(-1)*h1*h4*h5*h9);
+        h3*h9+(-1)*h1*h4*h5*h9)
 
     phidd = (-1)*((-1)*h10*h11*h1**2+h11*h1*h2**2+h10*h1*
         h3**2+h11*h1*h4**2+(-1)*h3**2*h4**2+2*h2*h3*h4*
