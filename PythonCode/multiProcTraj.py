@@ -176,7 +176,10 @@ def FlyTheBug(state,t, F, alpha, tau0):
 
 # this returns the full trajectory
 def flyBug(i):
-    state = odeint(FlyTheBug, state0[i, :], t)
+    F = state0[i,8]
+    alpha = state0[i, 9]
+    tau0 = state0[i, 10]
+    state = odeint(FlyTheBug, state0[i, 0:8], t, args = (F, alpha, tau0))
     x, xd = state[:,0], state[:,1]
     y, yd = state[:,2], state[:,3]
     theta, thetad = state[:,4],state[:,5]
@@ -185,30 +188,22 @@ def flyBug(i):
 
 # this returns the initial and final states
 def flyBug_firstLast(i):
-    state = odeint(FlyTheBug, state0[i, :], t,     state = odeint(FlyTheBug, state0[i, :], t, )
+    F = state0[i,8]
+    alpha = state0[i, 9]
+    tau0 = state0[i, 10]
+    state = odeint(FlyTheBug, state0[i, 0:8:], t, args = (F, alpha, tau0) )
     [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
     [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
     [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
     [phi0, phif], [phid0, phidf] = state[[0, -1], 6], state[[0, -1],7]
-    [F, alpha, tau0] = state0[i, [8, 9, 10]]
     return(np.array([x0, xf, xd0, xdf, y0, yf, yd0, ydf, theta0, thetaf, thetad0, thetadf, phi0, phif, phid0, phidf, F, alpha, tau0]))
 
 
-testDF = pd.read_csv(os.path.join(dataOutput, "NNpreds_RandomICs.csv"))
-testDF["x_0"] = 0 
-testDF["y_0"] = 0
-state00 = np.array(testDF[["x_0", "x_dot_0", "y_0", "y_dot_0", 
-           "theta_0", "theta_dot_0", "phi_0", "phi_dot_0", 
-           "F_pred", "alpha_pred", "tau_pred"]])
+#testDF = pd.read_csv(os.path.join(dataOutput, "NNpreds_RandomICs.csv"))
+#testDF["x_0"] = 0 
+#testDF["y_0"] = 0
+#state00 = np.array(testDF[["x_0", "x_dot_0", "y_0", "y_dot_0", 
+#           "theta_0", "theta_dot_0", "phi_0", "phi_dot_0", 
+#           "F_pred", "alpha_pred", "tau_pred"]])
 
-
-# this returns the initial and final states
-def flyBug_firstLast_test(i):
-    state = odeint(FlyTheBug, state00[i, :], t)
-    [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
-    [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
-    [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
-    [phi0, phif], [phid0, phidf] = state[[0, -1], 6], state[[0, -1],7]
-    [F, alpha, tau0] = state00[i, [8, 9, 10]]
-    return(np.array([x0, xf, xd0, xdf, y0, yf, yd0, ydf, theta0, thetaf, thetad0, thetadf, phi0, phif, phid0, phidf, F, alpha, tau0]))
 
