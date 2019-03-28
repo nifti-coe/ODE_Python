@@ -185,7 +185,7 @@ def flyBug(i):
 
 # this returns the initial and final states
 def flyBug_firstLast(i):
-    state = odeint(FlyTheBug, state0[i, :], t)
+    state = odeint(FlyTheBug, state0[i, :], t,     state = odeint(FlyTheBug, state0[i, :], t, )
     [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
     [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
     [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
