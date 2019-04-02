@@ -10,6 +10,6 @@ dependencies:
   - seaborn=0.9
   - pip=9.0 # not necessary, unless you want to install pip packages, like Keras
   - scipy=1.0
-  - numba= 0.43
+  - numba=0.43
   - ipykernel=4.8 # after install, activate environment and type python -m ipykernel install --user --name numSolve
 
