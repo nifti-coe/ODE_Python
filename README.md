@@ -12,7 +12,7 @@ ___
 - a. Open terminal and navigate to a directory where you want this folder (ex. .../Documents/GitRepos)
 - b. clone this repository (download it onto your local computer) 
 
-    ```git clone https://github.com/callinSwitzer/ODE_Python.git```
+    ```git clone https://github.com/nifti-coe/ODE_Python.git```
     
 
 ## When you want to get the most recent version from github
