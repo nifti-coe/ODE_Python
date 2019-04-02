@@ -85,7 +85,7 @@ g =  980.0   #g is the acceleration due to gravity in cm/(s^2)
 # torsional spring(s) = Initial abdomen angle - initial head angle - pi
 betaR =  0.0 
     
-nstep = 10 # number of steps in each trajectory
+nstep = 2 # number of steps in each trajectory
 t = np.linspace(0, 0.02, num = nstep, endpoint = True) # time cut into 100 timesteps
 nrun = 100000  # (max) number of trajectories.
 
@@ -179,7 +179,7 @@ def flyBug(i):
     F = state0[i,8]
     alpha = state0[i, 9]
     tau0 = state0[i, 10]
-    state = odeint(FlyTheBug, state0[i, 0:8], t, args = (F, alpha, tau0))
+    state = odeint(FlyTheBug, state0[i, 0:8], t, args = (F, alpha, tau0), mxstep=5000000)
     x, xd = state[:,0], state[:,1]
     y, yd = state[:,2], state[:,3]
     theta, thetad = state[:,4],state[:,5]
@@ -191,7 +191,7 @@ def flyBug_firstLast(i):
     F = state0[i,8]
     alpha = state0[i, 9]
     tau0 = state0[i, 10]
-    state = odeint(FlyTheBug, state0[i, 0:8:], t, args = (F, alpha, tau0) )
+    state = odeint(FlyTheBug, state0[i, 0:8:], t, args = (F, alpha, tau0), mxstep=5000000 )
     [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
     [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
     [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
