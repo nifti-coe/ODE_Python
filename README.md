@@ -1,5 +1,5 @@
 # Repository Title: ODE_Python
-_About_: Numerical solver for ODE's for simulated flying insect hello!
+_About_: Numerical solver for ODE's for simulated flying insect
 ___
 
 # TODO: 
