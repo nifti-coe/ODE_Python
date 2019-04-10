@@ -104,6 +104,8 @@ ranges = np.array([[0, 0], [-1500, 1500], [0, 0], [-1500, 1500],
                    [0, 2*np.pi], [-25, 25], [0, 2*np.pi], [-25, 25], 
                   [0, 44300], [0, 2*np.pi], [-100000, 100000]])
 
+
+
 # generate random initial conditions for state 0
 state0 = np.random.uniform(ranges[:, 0], ranges[:, 1], size=(nrun, ranges.shape[0]))
 
