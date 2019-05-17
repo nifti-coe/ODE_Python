@@ -115,7 +115,7 @@ springExponent = 1.0
 
 
 @jit
-def FlyTheBug(state,t, F, alpha, tau0):
+def FlyTheBug(state,t, F, alpha, tau0, **kwargs):
     # unpack the state vector
     x,xd,y,yd,theta,thetad,phi,phid= state # displacement,x and velocity xd  etc...   You got it?'
     # compute acceleration xdd = x''
