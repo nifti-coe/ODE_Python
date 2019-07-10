@@ -100,9 +100,10 @@ theta, thetad, phi, phid = [zeroMatrix.copy() for ii in
                                             "theta", "thetad", "phi", "phid"]))]
 
 # ranges for initial conditions
-ranges = np.array([[0, 0], [-1500, 1500], [0, 0], [-1500, 1500],   
-                   [0, 2*np.pi], [-25, 25], [0, 2*np.pi], [-25, 25], 
-                  [0, 44300], [0, 2*np.pi], [-100000, 100000]])
+# note: these ranges are much larger than Jorge's original ranges
+ranges = np.array([[0, 0], [-15000, 15000], [0, 0], [-15000, 15000],   
+                   [0, 2*np.pi], [-250, 250], [0, 2*np.pi], [-250, 250], 
+                  [0, 443000], [0, 2*np.pi], [-1000000, 1000000]])
 
 
 
