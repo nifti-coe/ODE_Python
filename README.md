@@ -5,6 +5,21 @@ ___
 # TODO: 
 1. Run simulations to generate more training data for Neural Networks (parallel sims)
 2. Use newly generated training data to train NNet
+3. *Build a bigger ball for control parameters.
+4. *Penalize high values for controls or speeds. – sift through training and test data to take out “bad” controls.
+5. *Try Mixture Density Network
+6. *Tru reinforcement learning
+
+
+
+
+
+
+
+
+
+
+
 
 ___
 # Git instructions: 
