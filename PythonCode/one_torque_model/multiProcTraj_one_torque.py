@@ -101,9 +101,17 @@ theta, thetad, phi, phid = [zeroMatrix.copy() for ii in
 
 # ranges for initial conditions
 # note: these ranges are much larger than Jorge's original ranges
-ranges = np.array([[0, 0], [-15000, 15000], [0, 0], [-15000, 15000],   
-                   [0, 2*np.pi], [-250, 250], [0, 2*np.pi], [-250, 250], 
-                  [0, 443000], [0, 2*np.pi], [-1000000, 1000000]])
+ranges = np.array([[0, 0], # x
+                   [-150000, 150000], # xd
+                   [0, 0], # y
+                   [-150000, 150000], # yd  
+                   [0, 2*np.pi], # theta
+                   [-250, 250], # theta_d
+                   [0, 2*np.pi], # phi
+                   [-250, 250], # phi_d
+                   [0, 443000], # F
+                   [0, 2*np.pi], # alpha
+                   [-1000000, 1000000]]) # tau
 
 
 
@@ -117,34 +125,49 @@ springExponent = 1.0
 
 @jit
 def FlyTheBug(state,t, F, alpha, tau0):
+
     # unpack the state vector
-    x,xd,y,yd,theta,thetad,phi,phid= state # displacement,x and velocity xd  etc...   You got it?'
-    # compute acceleration xdd = x''
-    # Jorge's order .  x,y,theta,phi,xd,yd,thetad,phid
-    # .  there is no entry for Q(2) ... which would be y.  I wonder why not?
+    x,xd,y,yd,theta,thetad,phi,phid = state # displacement,x and velocity xd  etc...
 
     #Reynolds number calculation:
-    Re_head = rhoA*(np.sqrt((xd**2)+(yd**2)))*(2*bhead)/muA; #dimensionless number
-    Re_butt = rhoA*(np.sqrt((xd**2)+(yd**2)))*(2*bbutt)/muA; #dimensionless number
+    Re_head = rhoA*(np.sqrt((xd**2)+(yd**2)))*(2*bhead)/muA #dimensionless number
+    Re_butt = rhoA*(np.sqrt((xd**2)+(yd**2)))*(2*bbutt)/muA #dimensionless number
 
     #Coefficient of drag stuff:
-    Cd_head = 24/np.abs(Re_head) + 6/(1 + np.sqrt(np.abs(Re_head))) + 0.4;
-    Cd_butt = 24/np.abs(Re_butt) + 6/(1 + np.sqrt(np.abs(Re_butt))) + 0.4;
+    Cd_head = 24/np.abs(Re_head) + 6/(1 + np.sqrt(np.abs(Re_head))) + 0.4
+    Cd_butt = 24/np.abs(Re_butt) + 6/(1 + np.sqrt(np.abs(Re_butt))) + 0.4
     
-    h1 = m1 + m2;
-    h2 = (-1)*L1*m1*np.sin(theta);
-    h3 = (-1)*L2*m2*np.sin(phi);
-    h4 = L1*m1*np.cos(theta);
-    h5 = L2*m2*np.cos(phi);
-    h6 = (-1)*F*np.cos(alpha+theta)+(1/2)*Cd_butt*rhoA*S_butt*np.abs(xd)*xd+(1/2)*Cd_head*rhoA*S_head*np.abs(xd)*xd+(-1)*L1*m1*np.cos(theta)*thetad**2+(-1)*L2*m2*np.cos(phi)*phid**2
-    h7 = g*(m1+m2)+(1/2)*Cd_butt*rhoA*S_butt*np.abs(yd)*yd+(1/2)*Cd_head*rhoA*S_head*np.abs(yd)*yd+(-1)*L1*m1*thetad**2*np.sin(theta)+(-1)*F*np.sin(alpha+theta)+(-1)*L2*m2*phid**2*np.sin(phi);
-    h8 = (-1)*tau0+g*L1*m1*np.cos(theta)+(-1)*K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)+(-1)*c*((-1)*thetad+phid)+(-1)*F*L3*np.sin(alpha);
-    h9 = tau0+g*L2*m2*np.cos(phi)+K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)+c*((-1)*thetad+phid);
+    h1 = m1 + m2
+    h2 = (-1)*L1*m1*np.sin(theta)
+    h3 = (-1)*L2*m2*np.sin(phi)
+    h4 = L1*m1*np.cos(theta)
+    h5 = L2*m2*np.cos(phi)
+    h6 = ((-1)*F*np.cos(alpha+theta)+
+         (1/2)*Cd_butt*rhoA*S_butt*np.abs(xd)*xd+
+         (1/2)*Cd_head*rhoA*S_head*np.abs(xd)*xd+
+         (-1)*L1*m1*np.cos(theta)*thetad**2+
+         (-1)*L2*m2*np.cos(phi)*phid**2)
+    h7 = (g*(m1+m2)+
+         (1/2)*Cd_butt*rhoA*S_butt*np.abs(yd)*yd+
+         (1/2)*Cd_head*rhoA*S_head*np.abs(yd)*yd+
+         (-1)*L1*m1*thetad**2*np.sin(theta)+
+         (-1)*F*np.sin(alpha+theta)+
+         (-1)*L2*m2*phid**2*np.sin(phi))
+    h8 = ((-1)*tau0+g*L1*m1*np.cos(theta)+
+         (-1)*K*((-1)*betaR+(-1)*np.pi+
+         (-1)*theta+phi)+
+         (-1)*c*((-1)*thetad+phid)+
+         (-1)*F*L3*np.sin(alpha))
+    h9 = (tau0+g*L2*m2*np.cos(phi)+
+         K*((-1)*betaR+(-1)*np.pi+(-1)*theta+phi)+
+         c*((-1)*thetad+phid))
     h10 = I1+L1**2*m1
     h11 = I2+L2**2*m2
 
 
-    xdd = (-1)*(h10*h11*h1**2+(-1)*h11*h1*h2**2+(-1)*h10*h1*h3**2+(-1)*h11*h1*h4**2+h3**2*h4**2+(-2)*h2* 
+    xdd = (-1)*(h10*h11*h1**2+
+          (-1)*h11*h1*h2**2+(-1)*h10*h1*h3**2+
+          (-1)*h11*h1*h4**2+h3**2*h4**2+(-2)*h2* 
         h3*h4*h5+(-1)*h10*h1*h5**2+h2**2*h5**2)**(-1)*( 
         h10*h11*h1*h6+(-1)*h11*h4**2*h6+(-1)*h10*h5**2* 
         h6+h11*h2*h4*h7+h10*h3*h5*h7+(-1)*h11*h1*h2* 
@@ -166,7 +189,7 @@ def FlyTheBug(state,t, F, alpha, tau0):
         h2*h6+h3*h4*h5*h6+(-1)*h2*h5**2*h6+h11*h1*
         h4*h7+(-1)*h3**2*h4*h7+h2*h3*h5*h7+(-1)*h11*
         h1**2*h8+h1*h3**2*h8+h1*h5**2*h8+(-1)*h1*h2*
-        h3*h9+(-1)*h1*h4*h5*h9);
+        h3*h9+(-1)*h1*h4*h5*h9)
 
     phidd = (-1)*((-1)*h10*h11*h1**2+h11*h1*h2**2+h10*h1*
         h3**2+h11*h1*h4**2+(-1)*h3**2*h4**2+2*h2*h3*h4*
