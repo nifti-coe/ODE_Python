@@ -73,11 +73,11 @@ def FlyTheBug(state0, t, F, alpha, tau0,
 
 # this returns the full trajectory
 
-def flyBug_dictInput(simNum, t, state0_ICs, FAlphaTau_list, globalList):
+def flyBug_listInput_oneTorque(simNum, t, state0_ICs, FAlphaTau_list, globalList):
     F = FAlphaTau_list[simNum][0]
     alpha = FAlphaTau_list[simNum][1]
     tau0 = FAlphaTau_list[simNum][2]
-    state = odeint(FlyTheBug, state0_ICs, t, args = (F, alpha, tau0, *globalList))
+    state = odeint(FlyTheBug, state0_ICs[simNum], t, args = (F, alpha, tau0, *globalList))
     x, xd = state[:,0], state[:,1]
     y, yd = state[:,2], state[:,3]
     theta, thetad = state[:,4],state[:,5]

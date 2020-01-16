@@ -73,7 +73,7 @@ S_butt = np.pi*bbutt**2
 
 # K is the torsional spring constant of the thorax-petiole joint
 # in (cm^2)*g/(rad*(s^2))
-K = 29.3 
+K = 23000
 
 # c is the torsional damping constant of the thorax-petiole joint
 # in (cm^2)*g/s
@@ -219,7 +219,7 @@ def flyBug_firstLast(i):
     F = state0[i,8]
     alpha = state0[i, 9]
     tau0 = state0[i, 10]
-    state = odeint(FlyTheBug, state0[i, 0:8:], t, args = (F, alpha, tau0), mxstep=5000000 )
+    state = odeint(FlyTheBug, state0[i, 0:8], t, args = (F, alpha, tau0), mxstep=5000000 )
     [x0, xf], [xd0, xdf] = state[[0, -1],0], state[[0, -1],1]
     [y0, yf], [yd0, ydf] = state[[0, -1],2], state[[0, -1],3]
     [theta0, thetaf], [thetad0, thetadf] = state[[0, -1],4],state[[0, -1],5]
