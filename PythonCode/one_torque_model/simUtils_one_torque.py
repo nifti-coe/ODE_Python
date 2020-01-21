@@ -72,7 +72,6 @@ def FlyTheBug(state0, t, F, alpha, tau0,
 
 
 # this returns the full trajectory
-
 def flyBug_listInput_oneTorque(simNum, t, state0_ICs, FAlphaTau_list, globalList):
     F = FAlphaTau_list[simNum][0]
     alpha = FAlphaTau_list[simNum][1]
