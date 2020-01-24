@@ -7,7 +7,7 @@ from numba import jit
 
 @jit(cache = True)
 def FlyTheBug(state0, t, F, alpha, tau0, 
-                bhead, ahead, bbutt, abutt, rho, 
+                bhead, ahead, bbutt, abutt, rho_head, rho_butt, 
                 rhoA, muA, L1, L2, L3, K, c, g, betaR, nstep, nrun, 
                 m1, m2, echead, ecbutt, I1, I2, S_head, S_butt):
     
